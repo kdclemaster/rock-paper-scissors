@@ -1,0 +1,59 @@
+<html>
+<head>
+	<script>
+		function computerPlay(){
+			// Creates a random number between 1 and 3
+			let random = Math.floor((Math.random() * 3) + 1);
+			if (random == 1) return 'rock';
+			else if (random == 2) return 'paper';
+			else return 'scissors';
+		}
+		function playerPlay(){
+			function playerPrompt(){
+				return prompt("Rock, paper, or scissors?").toLowerCase();
+			}
+			let playerChoice = playerPrompt();
+
+			do{
+				if (playerChoice === 'rock' || playerChoice === 'paper' || playerChoice ==='scissors')
+				return playerChoice;
+				else
+					playerChoice = playerPrompt();
+			} while (true);
+			
+		}
+		function playRound(playerSelection, computerSelection){
+			if (playerSelection === computerSelection){
+				return "It's a tie! Both players picked " + playerSelection;
+			} else if (playerSelection === 'rock' && computerSelection === 'scissors'){
+				return "You win! " + playerSelection + " beats " +  computerSelection + "!";
+			} else if (playerSelection === 'paper' && computerSelection === 'rock'){
+				return "You win! " + playerSelection + " beats " +  computerSelection + "!";
+			} else if (playerSelection === 'scissors' && computerSelection === 'paper'){
+				return "You win! " + playerSelection + " beats " +  computerSelection + "!";
+			} else if (computerSelection === 'rock' && playerSelection === 'scissors'){
+				return "You lose! " + playerSelection + " beats " +  computerSelection + "!";
+			} else if (computerSelection === 'paper' && playerSelection === 'rock'){
+				return "You lose! " + playerSelection + " beats " +  computerSelection + "!";
+			} else if (computerSelection === 'scissors' && playerSelection === 'paper'){
+				return "You lose! " + playerSelection + " beats " +  computerSelection + "!";
+			}
+		}
+
+		function game(){
+			let wins = 0;
+			let roundResult;
+			for (i = 0; i < 5; i++){
+				roundResult = playRound(playerPlay(),computerPlay());
+				if (roundResult.search('win') != -1) wins++;
+				console.log(roundResult + `\nYou have ${wins} wins!`);
+			}
+		}
+		game();
+	</script>
+</head>
+
+<body>
+
+</body>
+</html>
