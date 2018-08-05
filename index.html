@@ -17,7 +17,9 @@
 		<button class="selections" id="paper"><img src="./images/paper.png"></button>
 		<button class="selections" id="scissors"><img src="./images/scissors.png"></button>
 	</div>
-	<div id="results">
+	<div id="round">make your choice</div>
+	
+	<div id="results">	
 		<div class="scores" id="player-score">0</div><div class="scores" id="computer-score">0</div>
 		<div id="results-text"></div>
 	</div>
@@ -49,6 +51,20 @@
 			})
 			return computerSelection;
 		};
+		function resetEverything(event){
+				const result = document.querySelector('#results-text');
+				const roundText = document.querySelector('#round');
+				roundText.textContent = 'make your choice';
+				playerScore.textContent = 0;
+				computerScore.textContent = 0;
+				result.textContent = '';
+				choices.forEach(button => {
+					button.classList.remove('disabled');
+					button.addEventListener('click', playClick);
+				})
+				this.classList.add('disabled');
+				this.removeEventListener('click', resetEverything);
+		}
 		function gameEnd(winner){
 			//enable the reset button
 			const reset = document.querySelector('#reset-button');
@@ -68,17 +84,9 @@
 				result.textContent = 'you lose';
 
 
-			reset.addEventListener('click', (e) => {
-				playerScore.textContent = 0;
-				computerScore.textContent = 0;
-				result.textContent = '';
-				choices.forEach(button => {
-					button.classList.remove('disabled');
-					button.addEventListener('click', playClick);
-				})
-				reset.classList.add('disabled');
-			})
-		}
+			reset.addEventListener('click', resetEverything);
+			}
+		
 		/*function playerPlay(){
 			function playerPrompt(){
 				return prompt("Rock, paper, or scissors?").toLowerCase();
@@ -110,7 +118,8 @@
 			}	
 		}
 		function playRound(playerSelection, computerSelection){
-			
+			const roundText = document.querySelector('#round');
+			roundText.textContent = playerSelection + ' versus ' + computerSelection;
 			if (playerSelection === 'rock' && computerSelection === 'scissors'){
 				setScore('player');
 			} else if (playerSelection === 'paper' && computerSelection === 'rock'){

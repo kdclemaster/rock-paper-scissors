@@ -16,8 +16,8 @@ div {
 	text-align: center;
 	margin: auto;
 	width: 50%;
-	margin-top: 2em;
-	margin-bottom: 2em;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 img {
@@ -52,14 +52,19 @@ img {
 	border: 3px solid green;
 	background: #51ff94;
 }
+#round{
+	font: italic bold 2em sans-serif;
+}
 
 .scores {
 	display: inline;
-	padding: 2em;
+	padding: 50px;
 	font: italic bold 3em sans-serif;
 }
 #results-text {
 	font: italic bold 2em sans-serif;
+	margin: auto;
+	width: 70%;
 }
 .disabled{
 	opacity: 0.6;
@@ -70,8 +75,8 @@ img {
 	background: white;
 }
 button {
-	margin-bottom: 2em;
-	margin-top: 2em;
+	margin-bottom: 10px;
+	margin-top: 10px;
 	outline: none;
 }
 
