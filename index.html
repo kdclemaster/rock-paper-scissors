@@ -1,14 +1,85 @@
 <html>
 <head>
-	<script>
+	<title>RPS</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<div id="banner">
+		<h1>RPS</h1>
+	</div>
+
+	
+	<div class="buttons">
+		<button id="reset-button" class="disabled">Play again?</button>
+		<br>
+		<button class="selections" id="rock"><img src="./images/rock.png"></button>
+		<button class="selections" id="paper"><img src="./images/paper.png"></button>
+		<button class="selections" id="scissors"><img src="./images/scissors.png"></button>
+	</div>
+	<div id="results">
+		<div class="scores" id="player-score">0</div><div class="scores" id="computer-score">0</div>
+		<div id="results-text"></div>
+	</div>
+</body>
+
+<script>
+		const playerScore = document.querySelector('#player-score');
+		const computerScore = document.querySelector('#computer-score');
+		const choices = document.querySelectorAll('.selections');
+		
+		function playClick(){
+			playRound(this.getAttribute('id'), computerPlay());
+		};
+		choices.forEach(button => {
+			
+			button.addEventListener('click', playClick)
+		});
 		function computerPlay(){
 			// Creates a random number between 1 and 3
+			let computerSelection = '';
 			let random = Math.floor((Math.random() * 3) + 1);
-			if (random == 1) return 'rock';
-			else if (random == 2) return 'paper';
-			else return 'scissors';
+			if (random == 1) computerSelection = 'rock';
+			else if (random == 2) computerSelection = 'paper';
+			else computerSelection = 'scissors';
+			const computerChoice = document.querySelector(`#${computerSelection}`);
+			computerChoice.classList.add('computer-choice');
+			computerChoice.addEventListener('transitionend', (e) => {
+				computerChoice.classList.remove('computer-choice');
+			})
+			return computerSelection;
+		};
+		function gameEnd(winner){
+			//enable the reset button
+			const reset = document.querySelector('#reset-button');
+			reset.classList.toggle('disabled');
+
+			//disable the selection buttons
+			choices.forEach(button => {
+				button.classList.add('disabled');
+				button.removeEventListener('click', playClick);
+			})
+
+			//show the winner
+			const result = document.querySelector('#results-text');
+			if (winner === 'player')
+				result.textContent = 'you win';
+			else
+				result.textContent = 'you lose';
+
+
+			reset.addEventListener('click', (e) => {
+				playerScore.textContent = 0;
+				computerScore.textContent = 0;
+				result.textContent = '';
+				choices.forEach(button => {
+					button.classList.remove('disabled');
+					button.addEventListener('click', playClick);
+				})
+				reset.classList.add('disabled');
+			})
 		}
-		function playerPlay(){
+		/*function playerPlay(){
 			function playerPrompt(){
 				return prompt("Rock, paper, or scissors?").toLowerCase();
 			}
@@ -21,26 +92,42 @@
 					playerChoice = playerPrompt();
 			} while (true);
 			
+		};*/
+		
+		function setScore(winner){
+			if (winner === 'player'){
+				
+				playerScore.textContent = Number(playerScore.textContent) + 1;
+				if (Number(playerScore.textContent) === 5){
+					gameEnd(winner);
+				}
+			} else {
+				
+				computerScore.textContent = Number(computerScore.textContent) + 1;
+				if (Number(computerScore.textContent) === 5){
+					gameEnd(winner);
+				}
+			}	
 		}
 		function playRound(playerSelection, computerSelection){
-			if (playerSelection === computerSelection){
-				return "It's a tie! Both players picked " + playerSelection;
-			} else if (playerSelection === 'rock' && computerSelection === 'scissors'){
-				return "You win! " + playerSelection + " beats " +  computerSelection + "!";
+			
+			if (playerSelection === 'rock' && computerSelection === 'scissors'){
+				setScore('player');
 			} else if (playerSelection === 'paper' && computerSelection === 'rock'){
-				return "You win! " + playerSelection + " beats " +  computerSelection + "!";
+				setScore('player');
 			} else if (playerSelection === 'scissors' && computerSelection === 'paper'){
-				return "You win! " + playerSelection + " beats " +  computerSelection + "!";
+				setScore('player');
 			} else if (computerSelection === 'rock' && playerSelection === 'scissors'){
-				return "You lose! " + playerSelection + " beats " +  computerSelection + "!";
+				setScore('computer');
 			} else if (computerSelection === 'paper' && playerSelection === 'rock'){
-				return "You lose! " + playerSelection + " beats " +  computerSelection + "!";
+				setScore('computer');
 			} else if (computerSelection === 'scissors' && playerSelection === 'paper'){
-				return "You lose! " + playerSelection + " beats " +  computerSelection + "!";
+				setScore('computer');
 			}
-		}
+			return;
+		};
 
-		function game(){
+		/*function game(){
 			let wins = 0;
 			let roundResult;
 			for (i = 0; i < 5; i++){
@@ -48,12 +135,9 @@
 				if (roundResult.search('win') != -1) wins++;
 				console.log(roundResult + `\nYou have ${wins} wins!`);
 			}
-		}
-		game();
+		};
+		*/
+		
+		//game();
 	</script>
-</head>
-
-<body>
-
-</body>
 </html>
